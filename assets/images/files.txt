@@ -1,0 +1,3 @@
+static const feature_1Png = 'assets/images/feature-1.png';
+static const feature_2Png = 'assets/images/feature-2.png';
+static const feature_3Png = 'assets/images/feature-3.png';

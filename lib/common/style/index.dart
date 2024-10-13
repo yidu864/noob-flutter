@@ -1,3 +1,3 @@
 library style;
 
-// export './xxxx.dart';
+export './theme.dart';

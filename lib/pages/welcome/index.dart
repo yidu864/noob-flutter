@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
+library welcome;
 
-class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
+export './controller.dart';
+export './view.dart';

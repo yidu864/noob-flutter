@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/pages/index.dart';
+import 'package:get/get.dart';
 
-void main() {
+void main() async {
+  await ScreenUtil.ensureScreenSize();
   runApp(const MyApp());
 }
 
@@ -11,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
       // initialRoute: Routes.SPLASH,
       // theme: appThemeData,
@@ -20,11 +22,11 @@ class MyApp extends StatelessWidget {
       // getPages: AppPages.pages,
       // home: SplashPage(),
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const WelcomePage(),
+      // theme: ThemeData(
+      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      //   useMaterial3: true,
+      // ),
+      home: WelcomePage(),
     );
   }
 }

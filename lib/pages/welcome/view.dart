@@ -87,12 +87,16 @@ class WelcomePage extends GetView<WelcomeController> {
       width: 295.w,
       height: 44.h,
       margin: EdgeInsets.only(bottom: 20.h),
-      child: FloatingActionButton(
-        backgroundColor: AppColors.primaryElement,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(6.w)),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor: AppColors.primaryElement,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(6.w)),
+          ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed('/sign-in');
+        },
         child: const Text(
           "Get started",
           style: TextStyle(color: AppColors.primaryElementText),

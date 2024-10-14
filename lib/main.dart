@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/pages/index.dart';
+import 'package:flutter_template/pages/sign_in/index.dart';
+import 'package:flutter_template/pages/sign_up/view.dart';
 import 'package:get/get.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
   await ScreenUtil.ensureScreenSize();
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       // initialRoute: Routes.SPLASH,
       // theme: appThemeData,
@@ -26,7 +29,13 @@ class MyApp extends StatelessWidget {
       //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       //   useMaterial3: true,
       // ),
-      home: WelcomePage(),
+      routes: {
+        '/sign-in': (ctx) => SignInPage(),
+        '/sign-up': (ctx) => SignUpPage(),
+      },
+      initialRoute: '/sign-up',
+      home: const WelcomePage(),
+      builder: EasyLoading.init(),
     );
   }
 }

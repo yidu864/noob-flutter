@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         '/sign-in': (ctx) => SignInPage(),
         '/sign-up': (ctx) => SignUpPage(),
       },
-      initialRoute: '/sign-up',
+      initialRoute: '/sign-in',
       home: const WelcomePage(),
       builder: EasyLoading.init(),
     );

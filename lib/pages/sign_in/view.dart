@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_template/common/api/user.dart';
 import 'package:flutter_template/common/index.dart';
 import 'package:get/get.dart';
 
@@ -128,14 +129,26 @@ class SignInPage extends StatelessWidget {
                 const Spacer(),
                 // 登录
                 btnFlatButtonWidget(
-                  onPressed: () {
-                    if (!duIsEmail(_emailController.value.text)) {
+                  onPressed: () async {
+                    final email = _emailController.value.text;
+                    final password = _passController.value.text;
+                    if (!duIsEmail(email)) {
                       EasyLoading.showToast('请正确输入邮件');
                       return;
                     }
-                    if (!duCheckStringLength(_passController.value.text, 6)) {
+                    if (!duCheckStringLength(password, 6)) {
                       EasyLoading.showToast('密码不能小于6位');
                       return;
+                    }
+
+                    try {
+                      UserResponseEntity res = await UserAPI.login(
+                          params: UserRequestEntity(
+                              email: email, password: duSHA256(password)));
+                      (await getStorage())
+                          .setItem(STORAGE_USER_TOKEN_KEY, res.accessToken);
+                    } catch (e) {
+                      utilLogger.e(e);
                     }
                   },
                   gbColor: AppColors.primaryElement,

@@ -43,6 +43,7 @@ dependencies:
   localstorage: ^5.0.0
   crypto: ^3.0.5
   logger: ^2.4.0
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +90,9 @@ flutter:
       fonts:
         - asset: assets/fonts/Montserrat-SemiBold.ttf
           weight: 600
+    - family: Iconfont
+      fonts:
+        - asset: assets/fonts/iconfont.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

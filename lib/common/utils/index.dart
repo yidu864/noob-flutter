@@ -6,3 +6,4 @@ export './validator.dart';
 export './logger.dart';
 export './storage.dart';
 export './secyrity.dart';
+export './iconfont.dart';

@@ -4,12 +4,15 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_template/common/index.dart';
+import 'package:flutter_template/common/utils/net_cache.dart';
+import 'package:flutter_template/global.dart';
 
 /// 全局网络请求 dio 实例 单例 XHttp
 class XHttp {
@@ -57,8 +60,8 @@ class XHttp {
     if ('' == dio.options.baseUrl) {
       dio = Dio(BaseOptions(
         baseUrl: _getBaseUrl(),
-        // contentType: ,
-        // responseType: ,
+        // contentType: '',
+        // responseType: ResponseType.json,
         headers: {'Content-Type': 'application/json'},
         connectTimeout: const Duration(milliseconds: CONNECT_TIMEOUT),
         receiveTimeout: const Duration(milliseconds: RECEIVE_TIMEOUT),
@@ -85,60 +88,62 @@ class XHttp {
 
   /// 初始化 dio
   void _init() {
+    // 代理
+    setProxy();
     // 添加拦截器
     // 处理cookie
     dio.interceptors.add(CookieManager(CookieJar()));
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (RequestOptions options, handler) async {
-          if (dio.options.extra['cancelDuplicatedRequest'] == true &&
-              options.cancelToken == null) {
-            String tokenKey = [
-              options.method,
-              options.baseUrl + options.path,
-              jsonEncode(options.data ?? {}),
-              jsonEncode(options.queryParameters ?? {})
-            ].join('&');
-            _removePendingRequest(tokenKey);
-            options.cancelToken = CancelToken();
-            options.extra['tokenKey'] = tokenKey;
-            _pendingRequests[tokenKey] = options.cancelToken!;
-          }
+          try {
+            if (dio.options.extra['cancelDuplicatedRequest'] == true &&
+                options.cancelToken == null) {
+              String tokenKey = [
+                options.method,
+                options.baseUrl + options.path,
+                jsonEncode(options.data ?? {}),
+                jsonEncode(options.queryParameters ?? {})
+              ].join('&');
+              _removePendingRequest(tokenKey);
+              options.cancelToken = CancelToken();
+              options.extra['tokenKey'] = tokenKey;
+              _pendingRequests[tokenKey] = options.cancelToken!;
+            }
 
-          // 有 token 时，添加 token。放打印日志后面，避免泄露 token。
-          // 也可以登录成功后掉用 XHttp.setToken() 方法设置 token，但是持久化的话还是要这样最好。
-          String token =
-              ((await getStorage()).getItem(STORAGE_USER_TOKEN_KEY)) ?? '';
-          if (token.isNotEmpty &&
-              token != dio.options.headers['Authorization']) {
-            dio.options.headers['Authorization'] = token;
-            options.headers['Authorization'] =
-                token; // 不设置的话第一次的请求会有问题，上面的是全局设置尚未对本条请求生效。
-          }
-          if (kDebugMode) {
-            options.headers['apifoxToken'] = 'tW0qR4MfZe2S8YYAsh3NnefD3CCcOQjd';
-          }
+            setAuthorizationHeader(options);
 
-          _handleRequest(options, handler);
+            _handleRequest(options, handler);
+          } catch (e, s) {
+            utilLogger.e(e, stackTrace: s);
+          }
           return handler.next(options);
         },
         onResponse: (Response response, ResponseInterceptorHandler handler) {
-          _handleResponse(response, handler);
-          RequestOptions option = response.requestOptions;
-          if (dio.options.extra['cancelDuplicatedRequest'] == true &&
-              option.cancelToken == null) {
-            _removePendingRequest(option.extra['tokenKey']);
+          try {
+            _handleResponse(response, handler);
+            RequestOptions option = response.requestOptions;
+            if (dio.options.extra['cancelDuplicatedRequest'] == true &&
+                option.cancelToken == null) {
+              _removePendingRequest(option.extra['tokenKey']);
+            }
+            String code = (response?.data is Map)
+                ? (response.data['code'] ?? response.statusCode).toString()
+                : response.statusCode.toString();
+            String msg = (response?.data is Map)
+                ? (response.data['message'] ?? response.statusMessage)
+                    .toString()
+                : response.statusMessage.toString();
+            // // 静态数据 或者 根据后台实际返回结构解析，即 code == '200' 时，data 为有效数据。
+            bool isSuccess = option.contentType != null &&
+                    option.contentType!.contains("text") ||
+                code == '200';
+            response.data = Result(
+                response.data, isSuccess, response.statusCode!, msg,
+                headers: response.headers);
+          } catch (e, s) {
+            utilLogger.e(e, stackTrace: s);
           }
-          String code = (response?.data ?? {})['code'].toString();
-          String msg =
-              (response?.data ?? {})['message'] ?? response.statusMessage;
-          // // 静态数据 或者 根据后台实际返回结构解析，即 code == '200' 时，data 为有效数据。
-          bool isSuccess = option.contentType != null &&
-                  option.contentType!.contains("text") ||
-              code == '200';
-          response.data = Result(
-              response.data, isSuccess, response.statusCode!, msg,
-              headers: response.headers);
           return handler.next(response);
         },
         onError: (DioException error, handler) {
@@ -162,6 +167,7 @@ class XHttp {
         },
       ),
     );
+    dio.interceptors.add(NetCache());
     // print("初始化 Dio 完成\n请求超时限制：$CONNECT_TIMEOUT ms\n接收超时限制：$RECEIVE_TIMEOUT ms\n发送超时限制：$SEND_TIMEOUT ms\nDio-BaseUrl：${dio.options.baseUrl}\nDio-Headers：${dio.options.headers}");
   }
 
@@ -169,28 +175,28 @@ class XHttp {
   void _handleRequest(RequestOptions options, handler) {
     Toast.hide();
     Toast.loading(loadMsg);
-    Map logData = {
-      'url': options.baseUrl + options.path,
-      'method': options.method,
-      'headers': options.headers,
-      'data': options.data ??
-          options
-              .queryParameters, // GET 请求参数可以在 url 中，也可以使用 queryParameters，所以需要增加此判断。
-    };
-    _dealRequestInfo(logData, REQUEST_TYPE_STR);
+    // Map logData = {
+    //   'url': options.baseUrl + options.path,
+    //   'method': options.method,
+    //   'headers': options.headers,
+    //   'data': options.data ??
+    //       options
+    //           .queryParameters, // GET 请求参数可以在 url 中，也可以使用 queryParameters，所以需要增加此判断。
+    // };
+    // _dealRequestInfo(logData, REQUEST_TYPE_STR);
   }
 
   /// 响应 response 之前统一处理
   void _handleResponse(Response response, handler) {
-    Map logData = {
-      'url': response.requestOptions.uri,
-      'method': response.requestOptions.method,
-      'headers': response.headers,
-      'data': response.data,
-      'statusCode': response.statusCode,
-      'statusMessage': response.statusMessage,
-    };
-    _dealRequestInfo(logData, RESPONSE_TYPE_STR);
+    // Map logData = {
+    //   'url': response.requestOptions.uri,
+    //   'method': response.requestOptions.method,
+    //   'headers': response.headers,
+    //   'data': response.data,
+    //   'statusCode': response.statusCode,
+    //   'statusMessage': response.statusMessage,
+    // };
+    // _dealRequestInfo(logData, RESPONSE_TYPE_STR);
     Toast.hide();
   }
 
@@ -215,8 +221,8 @@ class XHttp {
         errorTypeInfo = "请求取消！";
         break;
       case DioExceptionType.unknown:
-        utilLogger.e(error.error.toString());
         errorTypeInfo = '未知异常';
+        utilLogger.e(error, stackTrace: error.stackTrace);
         break;
       default:
         break;
@@ -375,13 +381,13 @@ class XHttp {
   }
 
   /// get 请求
-  Future get(String url,
-      [Map<String, dynamic>? params,
+  Future<Result> get(String url,
+      [dynamic params,
       resultDialogConfig,
       bool isCancelWhiteList = false]) async {
     // 可转为使用 request 代替，简化代码。
     // 写中括号可以忽略参数名称，因为必须按顺序传参。
-    Response response = {} as Response;
+    late Response response;
     CancelToken requestToken = CancelToken();
     if (dio.options.extra['cancelDuplicatedRequest'] != true ||
         isCancelWhiteList) {
@@ -391,6 +397,7 @@ class XHttp {
         requestToken = cancelToken;
       }
     }
+
     if (params != null) {
       response = await dio.get(url,
           queryParameters: params, cancelToken: requestToken);
@@ -422,7 +429,7 @@ class XHttp {
   }
 
   /// put 请求
-  Future put(String url,
+  Future<Result> put(String url,
       [Map<String, dynamic>? data,
       resultDialogConfig,
       bool isCancelWhiteList = false]) async {
@@ -686,6 +693,40 @@ class XHttp {
   /// 判断是否是取消异常
   static bool isCancel(e) {
     return CancelToken.isCancel(e);
+  }
+
+  /// 设置auth
+  static setAuthorizationHeader(RequestOptions options) async {
+    // 有 token 时，添加 token。放打印日志后面，避免泄露 token。
+    // 也可以登录成功后掉用 XHttp.setToken() 方法设置 token，但是持久化的话还是要这样最好。
+    String tokenStr =
+        StorageUtil.getInstance().getString(STORAGE_USER_TOKEN_KEY) ?? '';
+    String fullToken = 'Bearer $tokenStr';
+    if (tokenStr.isNotEmpty &&
+        fullToken != dio.options.headers['Authorization']) {
+      dio.options.headers['Authorization'] = fullToken;
+      options.headers['Authorization'] =
+          fullToken; // 不设置的话第一次的请求会有问题，上面的是全局设置尚未对本条请求生效。
+    }
+    if (IS_APIFOX) {
+      options.headers['apifoxToken'] = 'tW0qR4MfZe2S8YYAsh3NnefD3CCcOQjd';
+    }
+  }
+
+  /// 设置代理
+  static setProxy() {
+    if (Global.isRelease || !PROXY_ENABLE) return;
+    //代理工具会提供一个抓包的自签名证书，会通不过证书校验，所以我们禁用证书校验
+    dio.httpClientAdapter = IOHttpClientAdapter()
+      ..createHttpClient = () {
+        return HttpClient(context: SecurityContext(withTrustedRoots: true))
+          ..findProxy = (_) {
+            // 这里设置代理
+            return "PROXY $PROXY_IP:$PROXY_PORT";
+          }
+          ..badCertificateCallback = (c, h, p) => true;
+      }
+      ..validateCertificate = (c, h, p) => true;
   }
 
 // /// 设置当前的请求数据格式

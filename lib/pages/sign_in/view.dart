@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/common/api/user.dart';
 import 'package:flutter_template/common/index.dart';
+import 'package:flutter_template/global.dart';
 import 'package:get/get.dart';
 
 class SignInPage extends StatelessWidget {
@@ -142,11 +143,12 @@ class SignInPage extends StatelessWidget {
                     }
 
                     try {
-                      UserResponseEntity res = await UserAPI.login(
-                          params: UserRequestEntity(
+                      UserLoginResponseEntity res = await UserAPI.login(
+                          params: UserLoginRequestEntity(
                               email: email, password: duSHA256(password)));
-                      (await getStorage())
-                          .setItem(STORAGE_USER_TOKEN_KEY, res.accessToken);
+                      Global.saveProfile(res);
+                      StorageUtil.getInstance()
+                          .setString(STORAGE_USER_TOKEN_KEY, res.accessToken);
                     } catch (e) {
                       utilLogger.e(e);
                     }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_template/common/index.dart';
+import 'package:flutter_template/global.dart';
 import 'package:flutter_template/pages/index.dart';
-import 'package:flutter_template/pages/sign_in/index.dart';
-import 'package:flutter_template/pages/sign_up/view.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
   await ScreenUtil.ensureScreenSize();
+  await Global.init();
   runApp(const MyApp());
 }
 
@@ -29,11 +30,8 @@ class MyApp extends StatelessWidget {
       //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       //   useMaterial3: true,
       // ),
-      routes: {
-        '/sign-in': (ctx) => SignInPage(),
-        '/sign-up': (ctx) => SignUpPage(),
-      },
-      initialRoute: '/sign-in',
+      routes: staticRoutes,
+      initialRoute: '/app',
       home: const WelcomePage(),
       builder: EasyLoading.init(),
     );

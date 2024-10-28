@@ -20,8 +20,8 @@ Widget newsCategoriesWidget(
                     item.title,
                     style: TextStyle(
                       color: selCategoryCode == item.code
-                          ? AppColors.secondaryElementText
-                          : AppColors.primaryText,
+                          ? AppColor.secondaryElementText
+                          : AppColor.primaryText,
                       fontSize: duSetFontSize(18),
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.w600,

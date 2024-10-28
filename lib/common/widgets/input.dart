@@ -14,7 +14,7 @@ Widget inputTextEdit({
     height: (44.h),
     margin: EdgeInsets.only(top: (marginTop.h)),
     decoration: const BoxDecoration(
-      color: AppColors.secondaryElement,
+      color: AppColor.secondaryElement,
       borderRadius: Radii.k6pxRadius,
     ),
     child: TextField(
@@ -26,7 +26,7 @@ Widget inputTextEdit({
         border: InputBorder.none,
       ),
       style: TextStyle(
-        color: AppColors.primaryText,
+        color: AppColor.primaryText,
         fontFamily: "Avenir",
         fontWeight: FontWeight.w400,
         fontSize: 18.sp,

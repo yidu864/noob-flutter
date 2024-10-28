@@ -1,6 +1,29 @@
+// 注册请求
+class UserRegisterRequestEntity {
+  String email;
+  String password;
+
+  UserRegisterRequestEntity({
+    required this.email,
+    required this.password,
+  });
+
+  factory UserRegisterRequestEntity.fromJson(Map<String, dynamic> json) =>
+      UserRegisterRequestEntity(
+        email: json["email"],
+        password: json["password"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "email": email,
+        "password": password,
+      };
+}
+
+// 登录请求
 class UserLoginRequestEntity {
-  final String email;
-  final String password;
+  String email;
+  String password;
 
   UserLoginRequestEntity({
     required this.email,
@@ -21,14 +44,14 @@ class UserLoginRequestEntity {
 
 // 登录返回
 class UserLoginResponseEntity {
-  String accessToken;
-  String displayName;
-  List<String> channels;
+  String? accessToken;
+  String? displayName;
+  List<String>? channels;
 
   UserLoginResponseEntity({
-    required this.accessToken,
-    required this.displayName,
-    required this.channels,
+    this.accessToken,
+    this.displayName,
+    this.channels,
   });
 
   factory UserLoginResponseEntity.fromJson(Map<String, dynamic> json) =>
@@ -41,6 +64,7 @@ class UserLoginResponseEntity {
   Map<String, dynamic> toJson() => {
         "access_token": accessToken,
         "display_name": displayName,
-        "channels": List<dynamic>.from(channels.map((x) => x)),
+        "channels":
+            channels == null ? [] : List<dynamic>.from(channels!.map((x) => x)),
       };
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/common/index.dart';
 import 'package:flutter_template/global.dart';
 import 'package:flutter_template/pages/index.dart';
@@ -7,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
-  await ScreenUtil.ensureScreenSize();
   await Global.init();
   runApp(const MyApp());
 }
@@ -31,7 +29,7 @@ class MyApp extends StatelessWidget {
       //   useMaterial3: true,
       // ),
       routes: staticRoutes,
-      initialRoute: '/app',
+      initialRoute: '/dahua',
       home: const WelcomePage(),
       builder: EasyLoading.init(),
     );

@@ -44,6 +44,10 @@ dependencies:
   crypto: ^3.0.5
   logger: ^2.4.0
   shared_preferences: ^2.3.2
+  package_info_plus: ^8.0.3
+  image_gallery_saver_plus: ^3.0.5
+  flutter_vlc_player: ^7.4.2
+  encrypt: ^5.0.3
 
 dev_dependencies:
   flutter_test:

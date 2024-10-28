@@ -1,8 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:get/get.dart';
+
 import 'package:flutter_template/common/index.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class Global {
   static UserLoginResponseEntity profile =
@@ -15,28 +18,28 @@ class Global {
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    // 工具初始化
-    await StorageUtil.init();
+    // 插件
+    await ScreenUtil.ensureScreenSize();
+    await PackageInfo.fromPlatform();
 
-    // 离线用户信息
-    var profileJson = StorageUtil().getJSON(STORAGE_USER_PROFILE_KEY);
-    if (profileJson != null) {
-      profile = UserLoginResponseEntity.fromJson(profileJson);
-    }
+    // 固定应用朝向, 禁止横屏
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-    // http缓存
-
-    // 安卓状态栏设置为透明
-    if (Platform.isAndroid) {
-      SystemUiOverlayStyle suos =
-          const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-      SystemChrome.setSystemUIOverlayStyle(suos);
-    }
+    setSystemUi();
   }
 
-  // 持久化 用户信息
-  static Future<bool> saveProfile(UserLoginResponseEntity ur) {
-    profile = ur;
-    return StorageUtil().setJSON(STORAGE_USER_PROFILE_KEY, ur.toJson());
+  /// 设置状态栏与导航样式
+  static void setSystemUi() {
+    if (GetPlatform.isAndroid) {
+      SystemUiOverlayStyle suos = const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarDividerColor: Colors.transparent,
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      );
+      SystemChrome.setSystemUIOverlayStyle(suos);
+    }
   }
 }

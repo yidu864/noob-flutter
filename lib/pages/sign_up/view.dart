@@ -12,7 +12,7 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryBackground,
+      backgroundColor: AppColor.primaryBackground,
       resizeToAvoidBottomInset: false,
       appBar: transparentAppBar(
         context: context,
@@ -20,7 +20,7 @@ class SignUpPage extends StatelessWidget {
           IconButton(
             icon: const Icon(
               Icons.info_outline,
-              color: AppColors.primaryText,
+              color: AppColor.primaryText,
             ),
             onPressed: () {
               EasyLoading.showToast('这是注册界面');
@@ -50,7 +50,7 @@ class SignUpPage extends StatelessWidget {
         "Sign up",
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: AppColors.primaryText,
+          color: AppColor.primaryText,
           fontFamily: "Montserrat",
           fontWeight: FontWeight.w600,
           fontSize: duSetFontSize(24),
@@ -128,7 +128,7 @@ class SignUpPage extends StatelessWidget {
                 "Fogot password?",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppColors.secondaryElementText,
+                  color: AppColor.secondaryElementText,
                   fontFamily: "Avenir",
                   fontWeight: FontWeight.w400,
                   fontSize: duSetFontSize(16),
@@ -154,7 +154,7 @@ class SignUpPage extends StatelessWidget {
             "Or sign in with social networks",
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: AppColors.primaryText,
+              color: AppColor.primaryText,
               fontFamily: "Avenir",
               fontWeight: FontWeight.w400,
               fontSize: duSetFontSize(16),
@@ -199,8 +199,8 @@ class SignUpPage extends StatelessWidget {
           Get.back();
         },
         width: 294,
-        gbColor: AppColors.secondaryElement,
-        fontColor: AppColors.primaryText,
+        gbColor: AppColor.secondaryElement,
+        fontColor: AppColor.primaryText,
         title: "I have an account",
         fontWeight: FontWeight.w500,
         fontSize: 16,

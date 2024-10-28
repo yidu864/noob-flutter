@@ -3,7 +3,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/common/api/user.dart';
 import 'package:flutter_template/common/index.dart';
-import 'package:flutter_template/global.dart';
 import 'package:get/get.dart';
 
 class SignInPage extends StatelessWidget {
@@ -27,7 +26,7 @@ class SignInPage extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 15.w),
             child: CircleAvatar(
                 radius: (0.5 * 76).w,
-                backgroundColor: AppColors.primaryBackground,
+                backgroundColor: AppColor.primaryBackground,
                 child: Stack(
                   alignment: AlignmentDirectional.center,
                   children: [
@@ -38,7 +37,7 @@ class SignInPage extends StatelessWidget {
                       child: Container(
                           height: 75.w,
                           decoration: BoxDecoration(
-                              color: AppColors.primaryBackground,
+                              color: AppColor.primaryBackground,
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withAlpha(60),
@@ -67,7 +66,7 @@ class SignInPage extends StatelessWidget {
               "SECTOR",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: AppColors.primaryText,
+                color: AppColor.primaryText,
                 fontFamily: "Montserrat",
                 fontWeight: FontWeight.w600,
                 fontSize: 24.sp,
@@ -79,7 +78,7 @@ class SignInPage extends StatelessWidget {
             "news",
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: AppColors.primaryText,
+              color: AppColor.primaryText,
               fontFamily: "Avenir",
               fontWeight: FontWeight.w400,
               fontSize: 16.sp,
@@ -124,7 +123,7 @@ class SignInPage extends StatelessWidget {
                   onPressed: () {
                     Get.toNamed("/sign-up");
                   },
-                  gbColor: AppColors.thirdElement,
+                  gbColor: AppColor.thirdElement,
                   title: "Sign up",
                 ),
                 const Spacer(),
@@ -146,14 +145,14 @@ class SignInPage extends StatelessWidget {
                       UserLoginResponseEntity res = await UserAPI.login(
                           params: UserLoginRequestEntity(
                               email: email, password: duSHA256(password)));
-                      Global.saveProfile(res);
-                      StorageUtil.getInstance()
-                          .setString(STORAGE_USER_TOKEN_KEY, res.accessToken);
+                      // Global.saveProfile(res);
+                      // StorageUtil.getInstance()
+                      //     .setString(STORAGE_USER_TOKEN_KEY, res.accessToken!);
                     } catch (e) {
                       utilLogger.e(e);
                     }
                   },
-                  gbColor: AppColors.primaryElement,
+                  gbColor: AppColor.primaryElement,
                   title: "Sign in",
                 ),
               ],
@@ -170,7 +169,7 @@ class SignInPage extends StatelessWidget {
                 "Fogot password?",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppColors.secondaryElementText,
+                  color: AppColor.secondaryElementText,
                   fontFamily: "Avenir",
                   fontWeight: FontWeight.w400,
                   fontSize: duSetFontSize(16),
@@ -195,7 +194,7 @@ class SignInPage extends StatelessWidget {
             "Or sign in with social networks",
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: AppColors.primaryText,
+              color: AppColor.primaryText,
               fontFamily: "Avenir",
               fontWeight: FontWeight.w400,
               fontSize: duSetFontSize(16),
@@ -240,8 +239,8 @@ class SignInPage extends StatelessWidget {
           Get.toNamed("/sign-up");
         },
         width: 294,
-        gbColor: AppColors.secondaryElement,
-        fontColor: AppColors.primaryText,
+        gbColor: AppColor.secondaryElement,
+        fontColor: AppColor.primaryText,
         title: "Sign up",
         fontWeight: FontWeight.w500,
         fontSize: 16,
@@ -256,7 +255,7 @@ class SignInPage extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.primaryBackground,
+      backgroundColor: AppColor.primaryBackground,
       body: Center(
         child: Column(
           children: <Widget>[

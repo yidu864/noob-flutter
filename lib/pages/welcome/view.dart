@@ -16,7 +16,7 @@ class WelcomePage extends GetView<WelcomeController> {
         "Features",
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: AppColors.primaryText,
+          color: AppColor.primaryText,
           fontFamily: "Montserrat",
           fontWeight: FontWeight.w600,
           fontSize: 24.sp,
@@ -35,7 +35,7 @@ class WelcomePage extends GetView<WelcomeController> {
         "The best of news channels all in one place. Trusted sources and personalized news for you.",
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: AppColors.primaryText,
+          color: AppColor.primaryText,
           fontFamily: "Avenir",
           fontWeight: FontWeight.normal,
           fontSize: 16.sp,
@@ -69,7 +69,7 @@ class WelcomePage extends GetView<WelcomeController> {
               intro,
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: AppColors.primaryText,
+                color: AppColor.primaryText,
                 fontFamily: "Avenir",
                 fontWeight: FontWeight.normal,
                 fontSize: 16.sp,
@@ -89,7 +89,7 @@ class WelcomePage extends GetView<WelcomeController> {
       margin: EdgeInsets.only(bottom: 20.h),
       child: TextButton(
         style: TextButton.styleFrom(
-          backgroundColor: AppColors.primaryElement,
+          backgroundColor: AppColor.primaryElement,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(6.w)),
           ),
@@ -99,7 +99,7 @@ class WelcomePage extends GetView<WelcomeController> {
         },
         child: const Text(
           "Get started",
-          style: TextStyle(color: AppColors.primaryElementText),
+          style: TextStyle(color: AppColor.primaryElementText),
         ),
       ),
     );

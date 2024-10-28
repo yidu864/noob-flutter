@@ -6,9 +6,9 @@ Widget btnFlatButtonWidget({
   required VoidCallback onPressed,
   double width = 140,
   double height = 44,
-  Color gbColor = AppColors.primaryElement,
+  Color gbColor = AppColor.primaryElement,
   String title = "button",
-  Color fontColor = AppColors.primaryElementText,
+  Color fontColor = AppColor.primaryElementText,
   double fontSize = 18,
   String fontName = "Montserrat",
   FontWeight fontWeight = FontWeight.w400,
@@ -52,7 +52,7 @@ Widget btnFlatButtonBorderOnlyWidget({
     child: TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        backgroundColor: AppColors.primaryBackground,
+        backgroundColor: AppColor.primaryBackground,
         shape: const RoundedRectangleBorder(
           side: Borders.primaryBorder,
           borderRadius: Radii.k6pxRadius,

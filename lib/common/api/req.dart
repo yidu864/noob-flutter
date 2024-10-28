@@ -12,7 +12,6 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_template/common/index.dart';
 import 'package:flutter_template/common/utils/net_cache.dart';
-import 'package:flutter_template/global.dart';
 
 /// 全局网络请求 dio 实例 单例 XHttp
 class XHttp {
@@ -28,9 +27,9 @@ class XHttp {
   static const ERROR_TYPE_STR = 'RESPONSE_ERROR'; // 错误类型字符串
   static const DEFAULT_LOAD_MSG = '请求中...'; // 默认请求提示文字
 
-  static const CONNECT_TIMEOUT = 5000; // 连接超时时间
-  static const RECEIVE_TIMEOUT = 5000; // 接收超时时间
-  static const SEND_TIMEOUT = 5000; // 发送超时时间
+  static const CONNECT_TIMEOUT = 30000; // 连接超时时间
+  static const RECEIVE_TIMEOUT = 30000; // 接收超时时间
+  static const SEND_TIMEOUT = 30000; // 发送超时时间
 
   static const DIALOG_TYPE_OTHERS = 'OTHERS'; // 结果处理-其他类型
   static const DIALOG_TYPE_TOAST = 'TOAST'; // 结果处理-轻提示类型
@@ -699,15 +698,15 @@ class XHttp {
   static setAuthorizationHeader(RequestOptions options) async {
     // 有 token 时，添加 token。放打印日志后面，避免泄露 token。
     // 也可以登录成功后掉用 XHttp.setToken() 方法设置 token，但是持久化的话还是要这样最好。
-    String tokenStr =
-        StorageUtil.getInstance().getString(STORAGE_USER_TOKEN_KEY) ?? '';
-    String fullToken = 'Bearer $tokenStr';
-    if (tokenStr.isNotEmpty &&
-        fullToken != dio.options.headers['Authorization']) {
-      dio.options.headers['Authorization'] = fullToken;
-      options.headers['Authorization'] =
-          fullToken; // 不设置的话第一次的请求会有问题，上面的是全局设置尚未对本条请求生效。
-    }
+    // String tokenStr =
+    //     StorageUtil.getInstance().getString(STORAGE_USER_TOKEN_KEY) ?? '';
+    // String fullToken = 'Bearer $tokenStr';
+    // if (tokenStr.isNotEmpty &&
+    //     fullToken != dio.options.headers['Authorization']) {
+    //   dio.options.headers['Authorization'] = fullToken;
+    //   options.headers['Authorization'] =
+    //       fullToken; // 不设置的话第一次的请求会有问题，上面的是全局设置尚未对本条请求生效。
+    // }
     if (IS_APIFOX) {
       options.headers['apifoxToken'] = 'tW0qR4MfZe2S8YYAsh3NnefD3CCcOQjd';
     }
@@ -715,15 +714,15 @@ class XHttp {
 
   /// 设置代理
   static setProxy() {
-    if (Global.isRelease || !PROXY_ENABLE) return;
+    // if (Global.isRelease || !PROXY_ENABLE) return;
     //代理工具会提供一个抓包的自签名证书，会通不过证书校验，所以我们禁用证书校验
     dio.httpClientAdapter = IOHttpClientAdapter()
       ..createHttpClient = () {
         return HttpClient(context: SecurityContext(withTrustedRoots: true))
-          ..findProxy = (_) {
-            // 这里设置代理
-            return "PROXY $PROXY_IP:$PROXY_PORT";
-          }
+          // ..findProxy = (_) {
+          //   // 这里设置代理
+          //   return "PROXY $PROXY_IP:$PROXY_PORT";
+          // }
           ..badCertificateCallback = (c, h, p) => true;
       }
       ..validateCertificate = (c, h, p) => true;

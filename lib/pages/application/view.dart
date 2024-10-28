@@ -31,50 +31,50 @@ class _ApplicationPageState extends State<ApplicationPage>
     const BottomNavigationBarItem(
       icon: Icon(
         Iconfont.home,
-        color: AppColors.tabBarElement,
+        color: AppColor.tabBarElement,
       ),
       activeIcon: Icon(
         Iconfont.home,
-        color: AppColors.secondaryElementText,
+        color: AppColor.secondaryElementText,
       ),
       label: 'main',
-      backgroundColor: AppColors.primaryBackground,
+      backgroundColor: AppColor.primaryBackground,
     ),
     const BottomNavigationBarItem(
       icon: Icon(
         Iconfont.grid,
-        color: AppColors.tabBarElement,
+        color: AppColor.tabBarElement,
       ),
       activeIcon: Icon(
         Iconfont.grid,
-        color: AppColors.secondaryElementText,
+        color: AppColor.secondaryElementText,
       ),
       label: ('category'),
-      backgroundColor: AppColors.primaryBackground,
+      backgroundColor: AppColor.primaryBackground,
     ),
     const BottomNavigationBarItem(
       icon: Icon(
         Iconfont.tag,
-        color: AppColors.tabBarElement,
+        color: AppColor.tabBarElement,
       ),
       activeIcon: Icon(
         Iconfont.tag,
-        color: AppColors.secondaryElementText,
+        color: AppColor.secondaryElementText,
       ),
       label: ('tag'),
-      backgroundColor: AppColors.primaryBackground,
+      backgroundColor: AppColor.primaryBackground,
     ),
     const BottomNavigationBarItem(
       icon: Icon(
         Iconfont.me,
-        color: AppColors.tabBarElement,
+        color: AppColor.tabBarElement,
       ),
       activeIcon: Icon(
         Iconfont.me,
-        color: AppColors.secondaryElementText,
+        color: AppColor.secondaryElementText,
       ),
       label: ('my'),
-      backgroundColor: AppColors.primaryBackground,
+      backgroundColor: AppColor.primaryBackground,
     ),
   ];
 
@@ -110,7 +110,7 @@ class _ApplicationPageState extends State<ApplicationPage>
         title: Text(
           _tabTitles[_page],
           style: TextStyle(
-            color: AppColors.primaryText,
+            color: AppColor.primaryText,
             fontFamily: 'Montserrat',
             fontSize: duSetFontSize(18.0),
             fontWeight: FontWeight.w600,
@@ -119,7 +119,7 @@ class _ApplicationPageState extends State<ApplicationPage>
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: AppColors.primaryText,
+            color: AppColor.primaryText,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -129,7 +129,7 @@ class _ApplicationPageState extends State<ApplicationPage>
           IconButton(
             icon: const Icon(
               Icons.search,
-              color: AppColors.primaryText,
+              color: AppColor.primaryText,
             ),
             onPressed: () {},
           )
@@ -156,7 +156,7 @@ class _ApplicationPageState extends State<ApplicationPage>
     return BottomNavigationBar(
       items: _bottomTabs,
       currentIndex: _page,
-      // fixedColor: AppColors.primaryElement,
+      // fixedColor: AppColor.primaryElement,
       type: BottomNavigationBarType.fixed,
       onTap: _handleNavBarTap,
       showSelectedLabels: false,

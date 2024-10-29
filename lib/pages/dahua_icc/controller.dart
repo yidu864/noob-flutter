@@ -1,24 +1,21 @@
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:get/get.dart';
 
 class DahuaIccController extends GetxController {
   DahuaIccController();
 
-  _initData() {
-    update(["dahua_icc"]);
-  }
-
-  void onTap() {}
+  Rx<String> videoUrl = ''.obs;
+  late VlcPlayerController vlcc;
 
   // @override
   // void onInit() {
   //   super.onInit();
   // }
 
-  @override
-  void onReady() {
-    super.onReady();
-    _initData();
-  }
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  // }
 
   // @override
   // void onClose() {

@@ -6,9 +6,6 @@ import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'index.dart';
 
 class DahuaIccPage extends GetView<DahuaIccController> {
-  Rx<String> videoUrl = ''.obs;
-  late VlcPlayerController vlcc;
-
   DahuaIccPage({super.key}) {
     beforePlay();
   }
@@ -23,12 +20,12 @@ class DahuaIccPage extends GetView<DahuaIccController> {
           '1000122\$1\$0\$0');
       // 'start video api fail'
       if (videoResp['code'] == 1001) throw Error();
-      videoUrl.value =
+      controller.videoUrl.value =
           "${(videoResp['url'] as String).split('|')[1]}?token=${videoResp['token']}";
       // videoUrl.value =
       //     'rtsp://rtspstream:e30a0fbb7c68a5907cff965fc709f457@zephyr.rtsp.stream/movie';
 
-      vlcc = VlcPlayerController.network(videoUrl.value,
+      controller.vlcc = VlcPlayerController.network(controller.videoUrl.value,
           // 'rtmp://58.200.131.2:1935/livetv/hunantv',
           hwAcc: HwAcc.full,
           autoPlay: true,
@@ -45,10 +42,10 @@ class DahuaIccPage extends GetView<DahuaIccController> {
       heightFactor: 1,
       child: Obx(() => Column(
             children: [
-              videoUrl.value.isEmpty
+              controller.videoUrl.value.isEmpty
                   ? Container()
-                  : VlcPlayer(controller: vlcc, aspectRatio: 16 / 9),
-              Text(videoUrl.value)
+                  : VlcPlayer(controller: controller.vlcc, aspectRatio: 16 / 9),
+              Text(controller.videoUrl.value)
             ],
           )),
     );

@@ -7,7 +7,7 @@ import 'package:flutter_template/common/index.dart';
 import 'package:flutter_template/pages/index.dart';
 
 abstract class AppPages {
-  static const SPLASH = RouteNames.signIn;
+  static const SPLASH = RouteNames.welcome;
   static List<String> history = [];
   static final RouteObserver<Route> obs = RouteObservers();
 
@@ -35,6 +35,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: RouteNames.signUp,
+      binding: SignUpBinding(),
       page: () => const SignUpPage(),
     ),
     GetPage(

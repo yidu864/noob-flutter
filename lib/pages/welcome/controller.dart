@@ -13,7 +13,7 @@ class WelcomeController extends GetxController {
   void onTapStart() async {
     // 标记已经打开过应用了
     await ConfigStore.to.saveAlreadyOpen();
-    Get.offAndToNamed(RouteNames.signIn);
+    Get.offAndToNamed(RouteNames.dahuaIcc);
     // Get.toNamed(RouteNames.signIn);
   }
 

@@ -1,4 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_template/common/api/user.dart';
 import 'package:get/get.dart';
+
+import 'package:flutter_template/common/index.dart';
 
 import 'index.dart';
 
@@ -7,12 +12,50 @@ class SignUpController extends GetxController {
 
   final state = SignUpState();
 
-  // tap
-  void handleTap(int index) {
-    Get.snackbar(
-      "标题",
-      "消息",
+  final TextEditingController fullnameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
+
+  // 返回上一页
+  handleNavPop() {
+    Get.back();
+  }
+
+  // 提示信息
+  handleTip() {
+    EasyLoading.showToast('这是注册界面');
+  }
+
+  // 执行注册操作
+  handleSignUp() async {
+    // if (!duCheckStringLength(fullnameController.value.text, 5)) {
+    //   toastInfo(msg: '用户名不能小于5位');
+    //   return;
+    // }
+    // if (!duIsEmail(emailController.value.text)) {
+    //   toastInfo(msg: '请正确输入邮件');
+    //   return;
+    // }
+    // if (!duCheckStringLength(passController.value.text, 6)) {
+    //   toastInfo(msg: '密码不能小于6位');
+    //   return;
+    // }
+
+    UserRegisterRequestEntity params = UserRegisterRequestEntity(
+      email: emailController.value.text,
+      password: duSHA256(passController.value.text),
     );
+
+    await UserAPI.register(
+      params: params,
+    );
+
+    Get.back();
+  }
+
+  // 忘记密码
+  handleFogotPassword() {
+    EasyLoading.showToast('忘记密码');
   }
 
   /// 在 widget 内存中分配后立即调用。

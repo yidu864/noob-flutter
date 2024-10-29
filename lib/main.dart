@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/common/index.dart';
 import 'package:flutter_template/global.dart';
-import 'package:flutter_template/pages/index.dart';
+
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -15,23 +16,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      // initialRoute: Routes.SPLASH,
-      // theme: appThemeData,
-      defaultTransition: Transition.fade,
-      // initialBinding: SplashBinding(),
-      // getPages: AppPages.pages,
-      // home: SplashPage(),
-      title: 'Flutter Demo',
-      // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      //   useMaterial3: true,
-      // ),
-      routes: staticRoutes,
-      initialRoute: '/dahua',
-      home: const WelcomePage(),
-      builder: EasyLoading.init(),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (ctx, child) => GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        // initialRoute: Routes.SPLASH,
+        theme: AppTheme.light,
+        defaultTransition: Transition.fade,
+        // initialBinding: SplashBinding(),
+        // getPages: AppPages.pages,
+        // home: SplashPage(),
+        title: 'Flutter Demo',
+        // theme: ThemeData(
+        //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        //   useMaterial3: true,
+        // ),
+        initialRoute: AppPages.SPLASH,
+        getPages: AppPages.pages,
+        // initialRoute: '/dahua',
+        builder: EasyLoading.init(),
+        translations: TranslationService(),
+        navigatorObservers: [AppPages.obs],
+        // TODO: 国际化
+        // localizationsDelegates: [
+        //   Global
+        // ],
+      ),
     );
   }
 }

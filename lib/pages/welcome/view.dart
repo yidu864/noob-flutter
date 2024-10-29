@@ -94,9 +94,7 @@ class WelcomePage extends GetView<WelcomeController> {
             borderRadius: BorderRadius.all(Radius.circular(6.w)),
           ),
         ),
-        onPressed: () {
-          Get.toNamed('/sign-in');
-        },
+        onPressed: controller.onTapStart,
         child: const Text(
           "Get started",
           style: TextStyle(color: AppColor.primaryElementText),

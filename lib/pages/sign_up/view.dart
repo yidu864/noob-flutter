@@ -15,7 +15,6 @@ class SignUpPage extends StatelessWidget {
       backgroundColor: AppColor.primaryBackground,
       resizeToAvoidBottomInset: false,
       appBar: transparentAppBar(
-        context: context,
         actions: <Widget>[
           IconButton(
             icon: const Icon(

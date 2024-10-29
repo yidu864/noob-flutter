@@ -11,7 +11,6 @@ import 'package:dio/io.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_template/common/index.dart';
-import 'package:flutter_template/common/utils/net_cache.dart';
 
 /// 全局网络请求 dio 实例 单例 XHttp
 class XHttp {
@@ -166,7 +165,8 @@ class XHttp {
         },
       ),
     );
-    dio.interceptors.add(NetCache());
+    // 不再做缓存
+    // dio.interceptors.add(NetCache());
     // print("初始化 Dio 完成\n请求超时限制：$CONNECT_TIMEOUT ms\n接收超时限制：$RECEIVE_TIMEOUT ms\n发送超时限制：$SEND_TIMEOUT ms\nDio-BaseUrl：${dio.options.baseUrl}\nDio-Headers：${dio.options.headers}");
   }
 

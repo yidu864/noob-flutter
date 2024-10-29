@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_template/common/store/config.dart';
+import 'package:flutter_template/common/store/user.dart';
 
 import 'package:get/get.dart';
 
@@ -26,6 +28,13 @@ class Global {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     setSystemUi();
+    Loading();
+
+    // 处理全局的 service / controller_put
+    await Get.putAsync<StorageService>(() => StorageService().init());
+
+    Get.put<ConfigStore>(ConfigStore());
+    Get.put(UserStore());
   }
 
   /// 设置状态栏与导航样式

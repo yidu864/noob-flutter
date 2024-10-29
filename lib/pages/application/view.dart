@@ -106,7 +106,6 @@ class _ApplicationPageState extends State<ApplicationPage>
   // 顶部导航
   AppBar _buildAppBar() {
     return transparentAppBar(
-        context: context,
         title: Text(
           _tabTitles[_page],
           style: TextStyle(

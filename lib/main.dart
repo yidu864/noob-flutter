@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
         // initialRoute: '/dahua',
         builder: EasyLoading.init(),
         translations: TranslationService(),
+        locale: Get.deviceLocale,
         navigatorObservers: [AppPages.obs],
         // TODO: 国际化
         // localizationsDelegates: [

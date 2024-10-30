@@ -6,9 +6,7 @@ import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'index.dart';
 
 class DahuaIccPage extends GetView<DahuaIccController> {
-  DahuaIccPage({super.key}) {
-    beforePlay();
-  }
+  const DahuaIccPage({super.key});
 
   beforePlay() async {
     try {
@@ -35,6 +33,13 @@ class DahuaIccPage extends GetView<DahuaIccController> {
     }
   }
 
+  onStopPlay() async {
+    if (controller.videoUrl.isEmpty) return;
+    await controller.vlcc.stop();
+    await controller.vlcc.dispose();
+    controller.videoUrl.value = '';
+  }
+
   // 主视图
   Widget _buildView() {
     return FractionallySizedBox(
@@ -45,7 +50,14 @@ class DahuaIccPage extends GetView<DahuaIccController> {
               controller.videoUrl.value.isEmpty
                   ? Container()
                   : VlcPlayer(controller: controller.vlcc, aspectRatio: 16 / 9),
-              Text(controller.videoUrl.value)
+              Text(controller.videoUrl.value),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(onPressed: beforePlay, child: const Text('播放')),
+                  TextButton(onPressed: onStopPlay, child: const Text('停止'))
+                ],
+              )
             ],
           )),
     );

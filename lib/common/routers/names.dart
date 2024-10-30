@@ -5,6 +5,5 @@ class RouteNames {
   static const dahuaIcc = '/dahua_icc';
   static const signIn = '/sign_in';
   static const signUp = '/sign_up';
-  static const main = '/main';
   static const welcome = '/';
 }

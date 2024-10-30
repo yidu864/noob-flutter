@@ -5,15 +5,15 @@ class NewsAPI {
   /// 翻页
   static Future<NewsPageListResponseEntity> newsPageList(
       {NewsPageListRequestEntity? params}) async {
-    var response = await XHttp.getInstance().get('/news', params);
+    var response = await XHttp.getInstance().get('/news', params?.toJson());
     return NewsPageListResponseEntity.fromJson(response.data);
   }
 
   /// 推荐
-  static Future<NewsRecommendResponseEntity> newsRecommend(
+  static Future<NewsItem> newsRecommend(
       {NewsRecommendRequestEntity? params}) async {
     var response = await XHttp.getInstance().get('/news/recommend', params);
-    return NewsRecommendResponseEntity.fromJson(response.data);
+    return NewsItem.fromJson(response.data);
   }
 
   /// 分类

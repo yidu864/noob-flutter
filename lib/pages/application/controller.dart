@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/common/api/user.dart';
 import 'package:flutter_template/common/index.dart';
+import 'package:flutter_template/common/store/user.dart';
 import 'package:get/get.dart';
 
 import 'index.dart';
@@ -26,6 +28,11 @@ class ApplicationController extends GetxController {
   void handleNavBarTap(int index) {
     pageController.animateToPage(index,
         duration: const Duration(milliseconds: 200), curve: Curves.ease);
+  }
+
+  Future onLogout() async {
+    await UserStore.to.onLogout();
+    Get.offAndToNamed(RouteNames.welcome);
   }
 
   /// 在 widget 内存中分配后立即调用。

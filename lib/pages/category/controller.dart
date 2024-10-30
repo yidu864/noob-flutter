@@ -1,7 +1,6 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter_template/common/api/news.dart';
 import 'package:flutter_template/common/index.dart';
-import 'package:flutter_template/common/models/news.dart';
 import 'package:get/get.dart';
 
 import 'index.dart';

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_template/common/index.dart';
-import 'package:flutter_template/global.dart';
-
+import 'package:flutter_template/common/store/config.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'package:flutter_template/common/index.dart';
+import 'package:flutter_template/global.dart';
 
 void main() async {
   await Global.init();
@@ -20,28 +22,24 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       builder: (ctx, child) => GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        // initialRoute: Routes.SPLASH,
         theme: AppTheme.light,
         defaultTransition: Transition.fade,
-        // initialBinding: SplashBinding(),
-        // getPages: AppPages.pages,
-        // home: SplashPage(),
         title: 'Flutter Demo',
-        // theme: ThemeData(
-        //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        //   useMaterial3: true,
-        // ),
         initialRoute: AppPages.SPLASH,
         getPages: AppPages.pages,
-        // initialRoute: '/dahua',
         builder: EasyLoading.init(),
         translations: TranslationService(),
-        locale: Get.deviceLocale,
         navigatorObservers: [AppPages.obs],
-        // TODO: 国际化
-        // localizationsDelegates: [
-        //   Global
-        // ],
+        // 国际化
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate
+        ],
+        supportedLocales: ConfigStore.to.langs,
+        locale: ConfigStore.to.locale,
+        fallbackLocale: const Locale('en', 'US'),
+        enableLog: true,
       ),
     );
   }

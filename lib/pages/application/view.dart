@@ -40,11 +40,18 @@ class ApplicationPage extends GetView<ApplicationController> {
       physics: const NeverScrollableScrollPhysics(),
       controller: controller.pageController,
       onPageChanged: controller.handlePageChanged,
-      children: const <Widget>[
-        MainPage(),
-        CategoryPage(),
-        Text('BookmarksPage'),
-        Text('AccountPage'),
+      children: <Widget>[
+        const MainPage(),
+        const CategoryPage(),
+        const Text('BookmarksPage'),
+        SizedBox(
+          width: double.maxFinite,
+          height: double.maxFinite,
+          child: Center(
+            child: TextButton(
+                onPressed: controller.onLogout, child: const Text('退出登录')),
+          ),
+        ),
       ],
     );
   }

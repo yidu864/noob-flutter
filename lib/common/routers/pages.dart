@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_template/common/routers/guard/application.dart';
+import 'package:flutter_template/common/routers/guard/welcome.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_template/common/index.dart';
@@ -17,10 +19,10 @@ abstract class AppPages {
       page: () => const DahuaIccPage(),
     ),
     GetPage(
-      name: RouteNames.welcome,
-      binding: WelcomeBinding(),
-      page: () => const WelcomePage(),
-    ),
+        name: RouteNames.welcome,
+        binding: WelcomeBinding(),
+        page: () => const WelcomePage(),
+        middlewares: [WelcomeGuard()]),
     GetPage(
       name: RouteNames.signIn,
       page: () => const SignInPage(),
@@ -33,10 +35,10 @@ abstract class AppPages {
     ),
     //  =========以下页面需要登录
     GetPage(
-      name: RouteNames.application,
-      binding: ApplicationBinding(),
-      page: () => const ApplicationPage(),
-    ),
+        name: RouteNames.application,
+        binding: ApplicationBinding(),
+        page: () => const ApplicationPage(),
+        middlewares: [ApplicationGuard()]),
     GetPage(
       name: RouteNames.category,
       page: () => const CategoryPage(),

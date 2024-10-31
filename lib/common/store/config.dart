@@ -35,7 +35,7 @@ class ConfigStore extends GetxController {
     var langCode = StorageService.to.getString(STORAGE_LANGUAGE_CODE);
     if (langCode.isEmpty) return;
     // 找
-    var index = langs.indexWhere((e) => e == langCode);
+    var index = langs.indexWhere((e) => e.languageCode == langCode);
     if (index < 0) return;
     locale = langs[index];
   }

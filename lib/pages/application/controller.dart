@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/common/api/user.dart';
 import 'package:flutter_template/common/index.dart';
 import 'package:flutter_template/common/store/user.dart';
 import 'package:get/get.dart';

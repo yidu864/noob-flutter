@@ -43,6 +43,5 @@ class NewsCateWidget extends GetView<MainController> {
               ),
             ),
     );
-    ;
   }
 }

@@ -1,4 +1,3 @@
-import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,8 +55,5 @@ class Global {
   }
 
   /// 注册后台任务
-  static void registerBackground() {
-    BackgroundFetch.registerHeadlessTask(
-        BackgroundService.backgroundFetchHeadlessTask);
-  }
+  static void registerBackground() {}
 }

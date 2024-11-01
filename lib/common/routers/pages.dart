@@ -9,7 +9,7 @@ import 'package:flutter_template/common/index.dart';
 import 'package:flutter_template/pages/index.dart';
 
 abstract class AppPages {
-  static const SPLASH = RouteNames.background;
+  static const SPLASH = RouteNames.notice;
   static List<String> history = [];
   static final RouteObserver<Route> obs = RouteObservers();
 

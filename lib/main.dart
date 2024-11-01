@@ -11,6 +11,7 @@ import 'package:flutter_template/global.dart';
 void main() async {
   await Global.init();
   runApp(const MyApp());
+  Global.registerBackground();
 }
 
 class MyApp extends StatelessWidget {

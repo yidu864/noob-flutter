@@ -1,6 +1,8 @@
+import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_template/common/services/background.dart';
 import 'package:flutter_template/common/store/config.dart';
 import 'package:flutter_template/common/store/user.dart';
 
@@ -32,6 +34,7 @@ class Global {
 
     // 处理全局的 service / controller_put
     await Get.putAsync<StorageService>(() => StorageService().init());
+    await Get.putAsync(() => BackgroundService().init());
 
     Get.put<ConfigStore>(ConfigStore());
     Get.put(UserStore());
@@ -50,5 +53,11 @@ class Global {
       );
       SystemChrome.setSystemUIOverlayStyle(suos);
     }
+  }
+
+  /// 注册后台任务
+  static void registerBackground() {
+    BackgroundFetch.registerHeadlessTask(
+        BackgroundService.backgroundFetchHeadlessTask);
   }
 }

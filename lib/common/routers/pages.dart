@@ -9,7 +9,7 @@ import 'package:flutter_template/common/index.dart';
 import 'package:flutter_template/pages/index.dart';
 
 abstract class AppPages {
-  static const SPLASH = RouteNames.application;
+  static const SPLASH = RouteNames.background;
   static List<String> history = [];
   static final RouteObserver<Route> obs = RouteObservers();
 
@@ -42,6 +42,15 @@ abstract class AppPages {
     GetPage(
       name: RouteNames.category,
       page: () => const CategoryPage(),
+    ),
+    // ======== 测试用
+    GetPage(
+      name: RouteNames.notice,
+      page: () => const NotificationPage(),
+    ),
+    GetPage(
+      name: RouteNames.background,
+      page: () => const BackgroundPage(),
     ),
   ];
 }
